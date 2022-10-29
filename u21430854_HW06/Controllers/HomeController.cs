@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using u21430854_HW06.Models;
 
 namespace u21430854_HW06.Controllers
 {
     public class HomeController : Controller
     {
+        BikeStoresEntities db = new BikeStoresEntities();
+
         public ActionResult Index()
         {
             return View();

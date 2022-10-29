@@ -18,14 +18,14 @@
             </button>
             <div id="collapsible" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li class="nav-item"> <a class="nav-link" href="@Url.Action("Index", "Home")">Products</a> </li>
-                    <li class="nav-item"> <a class="nav-link" href="@Url.Action("Index", "Orders")">Orders</a> </li>
-                    <li class="nav-item"> <a class="nav-link" href="@Url.Action("Index", "Reports")">Reports</a> </li>
+                    <li class="nav-item"> <a class="nav-link" href="@Url.Action("Products", "Home")">Products</a> </li>
+                    <li class="nav-item"> <a class="nav-link" href="@Url.Action("Orders", "Orders")">Orders</a> </li>
+                    <li class="nav-item"> <a class="nav-link" href="@Url.Action("Reports", "Reports")">Reports</a> </li>
                 </ul>
             </div>
         </div>
     </div>
-    <div class="container body-content">
+    <div class="container body-content" style="margin-top: 5vh;">
         @RenderBody()
         <hr />
         <footer>

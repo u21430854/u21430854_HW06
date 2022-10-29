@@ -16,7 +16,7 @@ namespace u21430854_HW06
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Home", action = "Products", id = UrlParameter.Optional }
             );
         }
     }

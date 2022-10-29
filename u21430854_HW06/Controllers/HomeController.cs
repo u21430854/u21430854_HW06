@@ -4,6 +4,10 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using u21430854_HW06.Models;
+using System.Data;
+using System.Data.Entity;
+using PagedList.Mvc;
+using PagedList;
 
 namespace u21430854_HW06.Controllers
 {
@@ -11,23 +15,14 @@ namespace u21430854_HW06.Controllers
     {
         BikeStoresEntities db = new BikeStoresEntities();
 
-        public ActionResult Index()
+        public ActionResult Products(string prodName, int? i)
         {
-            return View();
-        }
+            db.Configuration.ProxyCreationEnabled = false;
+            if (!String.IsNullOrEmpty(prodName))
+            { ViewBag.SearchTerm = prodName; }
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+            var products = db.products.Where(pp => pp.product_name.Contains(prodName) || prodName == null).Include(pp => pp.brand).Include(pp => pp.category).ToList().ToPagedList(i ?? 1, 10);
+            return View(products);
         }
     }
 }

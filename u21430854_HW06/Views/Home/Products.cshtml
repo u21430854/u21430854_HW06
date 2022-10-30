@@ -19,7 +19,7 @@
             appearance: none;
         }
 
-        #update-btn { display: none; }
+        #update-btn, #delete-btn, #confirm-delete { display: none; }
     </style>
 </head>
 
@@ -65,7 +65,7 @@
                     <td>
                         <button class="btn btn-info" onclick="return GetProductToUpdate(@prod.product_id)">Edit</button> |
                         <button class="btn btn-secondary" onclick="return ShowProduct(@prod.product_id)">Details</button> |
-                        <button class="btn btn-warning" data-toggle="modal" data-target="#delete-product">Delete</button>
+                        <button class="btn btn-warning" onclick="return GetProductToDelete(@prod.product_id)" >Delete</button>
                     </td>
                 </tr>
             }
@@ -131,7 +131,7 @@
     </div>
 </div>
 
-<!--Read product modal-->
+<!--Read and Delete  product modal-->
 <div id="read-product" class="modal fade" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -145,6 +145,7 @@
             <!--Body-->
             <div class="modal-body">
                 <div class="container">
+                    <input type="number" id="deleteId" name="deleteId" hidden />
                     <div class="row m-1">
                         <span class="col-4">Name:</span>
                         <span id="readName"></span>
@@ -167,7 +168,7 @@
                     </div>
                 </div>
 
-                <table class="table">
+                <table id="read-stores" class="table">
                     <thead>
                         <tr>
                             <th>Store</th>
@@ -190,11 +191,14 @@
                     </tbody>
                 </table>
 
+                <div id="confirm-delete" style="font-weight: bold;">Are you sure you want to DELETE this product?</div>
+
             </div>
 
             <!--Footer-->
             <div class="modal-footer">
                 <button class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                <button id="delete-btn" class="btn btn-danger" onclick="DeleteProduct()">Delete</button>
             </div>
         </div>
     </div>

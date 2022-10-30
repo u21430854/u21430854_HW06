@@ -33,7 +33,7 @@ function CreateProduct() {
 }
 
 //---------------------------------READ PRODUCT---------------------------------------
-//show product details when editing product
+//show product details when reading product
 function ShowProduct(prodId) {
     $.ajax({
         url: 'Home/GetProduct/' + prodId,
@@ -65,6 +65,10 @@ function ShowProduct(prodId) {
                 }
             }
 
+            //show modal, table and correct button
+            $('#read-stores').css('display', 'block');
+            $('#confirm-delete').css('display', 'none');
+            $('#delete-btn').css('display', 'none');
             $('#read-product').modal('show');
         },
         failure: (err) => {
@@ -109,8 +113,6 @@ function GetProductToUpdate(prodId) {
             alert(err.responseText);
         }
     });
-
-    return false;
 }
 
 function UpdateProduct() {
@@ -142,10 +144,77 @@ function UpdateProduct() {
 
             //notify user of success
             alert('Poduct has been updated!')
-            //refresh page so new data is displayed
+            //refresh page so updated data is displayed
             location.reload(true);
         },
         error: (err) => {
+            alert(err.responseText);
+        }
+    });
+}
+
+//---------------------------------DELETE PRODUCT---------------------------------------
+//get and show product deets for updating product
+function GetProductToDelete(prodId) {
+    $.ajax({
+        url: 'Home/GetProductToDelete/' + prodId,
+        type: 'GET',
+        data: {
+            prodId: prodId
+        },
+        contentType: 'application/json;charset=UTF-8',
+        dataType: 'json',
+        success: (result) => {
+            $('#readTitle').html(result.prodName);
+            $('#deleteId').val(result.prodId);
+            $('#readName').html(result.prodName);
+            $('#readYear').html(result.prodYear);
+            $('#readPrice').html(result.prodPrice);
+            $('#readBrand').html(result.brandName);
+            $('#readCategory').html(result.catName);
+
+            //show modal, confirm message and correct button
+            $('#read-stores').css('display', 'none');
+            $('#confirm-delete').css('display', 'block');
+            $('#delete-btn').css('display', 'inline');
+            $('#read-product').modal('show');
+        },
+        failure: (err) => {
+            alert(err.responseText);
+        },
+        error: (err) => {
+            alert(err.responseText);
+        }
+    });
+}
+
+//send product ID for deletion
+function DeleteProduct() {
+    //get product id
+    let prodId = $('#deleteId').val();
+
+    $.ajax({
+        url: "/Home/DeleteProduct/" + prodId,
+        type: "POST",
+        data: JSON.stringify({ "prodId": prodId }),
+        contentType: "application/json;charset=UTF-8",
+        dataType: "json",
+        success: (result) => {
+            //notify user of success
+            alert('Poduct has been deleted!');
+
+            //revert modal to read-product mode (because same modal is used for deleting and reading), but don't show it
+            $('#read-stores').css('display', 'block');
+            $('#confirm-delete').css('display', 'none');
+            $('#delete-btn').css('display', 'none');
+
+            //refresh page so changes are displayed
+            location.reload(true);
+        },
+        error: (err) => {
+            alert(err.responseText);
+        },
+        failure: (err) => {
             alert(err.responseText);
         }
     });

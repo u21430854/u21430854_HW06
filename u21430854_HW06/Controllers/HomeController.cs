@@ -33,6 +33,38 @@ namespace u21430854_HW06.Controllers
             return View(prodVM);
         }
 
+        //------------------------------DELETE PRODUCT------------------------------------------------------------------------
+        //show product that is to be deleted
+        public JsonResult GetProductToDelete(int prodId)
+        {
+            db.Configuration.ProxyCreationEnabled = false; //save memory
+            product prod = db.products.Include(pp => pp.brand)
+                                      .Include(pp => pp.category)
+                                      .FirstOrDefault(pp => pp.product_id == prodId);
+            
+            //see read product for explanation of ProductDetails model
+            ProductDetails productDetails = new ProductDetails()
+            {
+                prodId = prodId,
+                prodName = prod.product_name,
+                prodYear = prod.model_year,
+                prodPrice = prod.list_price,
+                brandName = prod.brand.brand_name,
+                catName = prod.category.category_name
+            };
+
+            return Json(productDetails, JsonRequestBehavior.AllowGet);
+        }
+
+        //delete product
+        public JsonResult DeleteProduct(int prodId)
+        {
+            db.products.Remove(db.products.FirstOrDefault(pp => pp.product_id == prodId));
+            db.SaveChanges();
+
+            return Json(JsonRequestBehavior.AllowGet);
+        }
+
         //------------------------------UPDATE PRODUCT------------------------------------------------------------------------
         //get product that must be updated; I'm sure there's a better way to combine the GetProduct function and this function
         //maybe if I had used partial VMs, but that's for another day

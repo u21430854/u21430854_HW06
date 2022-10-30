@@ -175,6 +175,7 @@
     <Compile Include="Models\product.cs">
       <DependentUpon>EFModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ProductDetails.cs" />
     <Compile Include="Models\staff.cs">
       <DependentUpon>EFModel.tt</DependentUpon>
     </Compile>

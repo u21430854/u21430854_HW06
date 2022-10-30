@@ -1,0 +1,51 @@
+﻿@model List<int>
+@{
+    ViewBag.Title = "Report";
+}
+
+<h2>Mountain Bike Order Report</h2>
+
+<canvas id="report" style="width: 100%;"></canvas>
+
+<!--Chart.js-->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const labels = [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December'
+    ];
+
+    const myChart = new Chart(
+        document.getElementById('report').getContext('2d'),
+        {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Number of Mountain Bikes Sold',
+                    backgroundColor: 'rgb(0, 0, 0)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: [@Model[0], @Model[1], @Model[2], @Model[3], @Model[4], @Model[5], @Model[6], @Model[7], @Model[8], @Model[9], @Model[10], @Model[11]]
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        }
+    );
+</script>

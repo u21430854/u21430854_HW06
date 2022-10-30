@@ -18,6 +18,8 @@
             -moz-appearance: none;
             appearance: none;
         }
+
+        #update-btn { display: none; }
     </style>
 </head>
 
@@ -61,7 +63,7 @@
                     <td>@prod.brand.brand_name</td>
                     <td>@prod.category.category_name</td>
                     <td>
-                        <button class="btn btn-info" data-toggle="modal" data-target="#update-product">Edit</button> |
+                        <button class="btn btn-info" onclick="return GetProductToUpdate(@prod.product_id)">Edit</button> |
                         <button class="btn btn-secondary" onclick="return ShowProduct(@prod.product_id)">Details</button> |
                         <button class="btn btn-warning" data-toggle="modal" data-target="#delete-product">Delete</button>
                     </td>
@@ -79,14 +81,14 @@
 
 @Html.PagedListPager(Model.products, i => Url.Action("Products", "Home", new { i, prodName = Request.QueryString["prodName"] }))
 
-<!--Create product modal-->
+<!--Create and Update product modal-->
 <div id="create-product" class="modal fade" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
 
             <!--Header-->
             <div class="modal-header">
-                <h3 class="modal-title">Create product</h3>
+                <h3 class="modal-title">Product</h3>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
 
@@ -94,6 +96,7 @@
             <div class="modal-body">
                 <form id="create-form">
                     <div class="container">
+                        <input type="number" id="updateId" name="updateId" hidden />
                         <div class="row m-1">
                             <label for="createName" class="col-4">Name:</label>
                             <input type="text" id="createName" name="createName" required />
@@ -121,7 +124,8 @@
             <!--Footer-->
             <div class="modal-footer">
                 <button class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
-                <button class="btn btn-success" onclick="return CreateProduct();">Add</button>
+                <button id="add-btn" class="btn btn-success" onclick="return CreateProduct();">Add</button>
+                <button id="update-btn" class="btn btn-success" onclick="return UpdateProduct()">Update</button>
             </div>
         </div>
     </div>

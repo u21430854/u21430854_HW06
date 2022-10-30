@@ -33,6 +33,35 @@ namespace u21430854_HW06.Controllers
             return View(prodVM);
         }
 
+        //------------------------------UPDATE PRODUCT------------------------------------------------------------------------
+        //get product that must be updated; I'm sure there's a better way to combine the GetProduct function and this function
+        //maybe if I had used partial VMs, but that's for another day
+        public JsonResult GetProductToUpdate(int prodId)
+        {
+            db.Configuration.ProxyCreationEnabled = false; //save memory
+            product updateProd = db.products.FirstOrDefault(pp => pp.product_id == prodId);
+
+            return Json(updateProd, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult UpdateProduct(product updated)
+        {
+            db.Configuration.ProxyCreationEnabled = false; //save memory
+            product toUpdate = db.products.FirstOrDefault(pp => pp.product_id == updated.product_id);
+            if (toUpdate != null)
+            {
+                toUpdate.product_name = updated.product_name;
+                toUpdate.brand_id = updated.brand_id;
+                toUpdate.category_id = updated.category_id;
+                toUpdate.model_year = updated.model_year;
+                toUpdate.list_price = updated.list_price;
+                db.SaveChanges();
+            }
+
+            return Json(JsonRequestBehavior.AllowGet);
+        }
+
+        //------------------------------READ PRODUCT------------------------------------------------------------------------
         //display product details
         public JsonResult GetProduct(int prodId)
         {
@@ -66,6 +95,7 @@ namespace u21430854_HW06.Controllers
             return Json(productDetails, JsonRequestBehavior.AllowGet);
         }
 
+        //------------------------------CREATE PRODUCT------------------------------------------------------------------------
         //for creating new product
         public JsonResult CreateProduct(product prod)
         {

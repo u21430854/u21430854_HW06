@@ -14,7 +14,16 @@
         contentType: "application/json;charset=utf-8",
         dataType: "json",
         success: (result) => {
+            //clear form
+            $('#createName').val();
+            $('#createBrand').val();
+            $('#createCategory').val();
+            //hide modal
             $('#create-product').modal('hide');
+            //notify user of success
+            alert('New product created!')
+            //refresh page so new data is displayed
+            location.reload(true);
         },
         error: (err) => {
             alert(err.responseText);

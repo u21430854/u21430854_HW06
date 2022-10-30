@@ -11,9 +11,17 @@
 </head>
 
 <h2>Orders</h2>
+@using (Html.BeginForm("Orders", "Orders", FormMethod.Get, new { @class = "col-12" }))
+{
+    <input style="width: 280px;" type="date" placeholder="yyyy-mm-dd" id="orderDate" name="orderDate" />
+    <input type="submit" class="btn btn-success" value="Search" />
+}
 
-<input style="width: 280px;" type="date" placeholder="yyyy-mm-dd" />
-<input type="submit" class="btn btn-success" value="Search" />
+
+@if (!String.IsNullOrEmpty(ViewBag.SearchDate))
+{
+    <div>Showing orders for @ViewBag.SearchDate</div>
+}
 
 @foreach (var order in Model.allOrders)
 {
@@ -46,4 +54,4 @@
     </table>
 }
 
-@Html.PagedListPager(Model.allOrders, i => Url.Action("Orders", "Orders", new { i }))
+@Html.PagedListPager(Model.allOrders, i => Url.Action("Orders", "Orders", new { i, orderDate = Request.QueryString["orderDate"] }))

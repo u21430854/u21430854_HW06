@@ -1,0 +1,49 @@
+﻿@using u21430854_HW06.ViewModels
+@using PagedList.Mvc;
+@using PagedList;
+@model OrdersVM
+@{
+    ViewBag.Title = "Orders";
+}
+
+<head>
+    <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+</head>
+
+<h2>Orders</h2>
+
+<input style="width: 280px;" type="date" placeholder="yyyy-mm-dd" />
+<input type="submit" class="btn btn-success" value="Search" />
+
+@foreach (var order in Model.allOrders)
+{
+    <h4 class="mt-3">Order @order.order_id - @order.order_date.ToString("yyyy/MM/dd")</h4>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>List Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var orderitem in order.order_items)
+            {
+                var total = orderitem.quantity * orderitem.list_price;
+                <tr>
+                    <td>@orderitem.product.product_name</td>
+                    <td>@orderitem.list_price</td>
+                    <td>@orderitem.quantity</td>
+                    <td>@total</td>
+                </tr>
+            }
+            <tr>
+                <td colspan="3" style="text-align: right; font-weight: bold;">Grand total:</td>
+                <td>@Model.CalculateGrandTotal(order.order_id)</td>
+            </tr>
+        </tbody>
+    </table>
+}
+
+@Html.PagedListPager(Model.allOrders, i => Url.Action("Orders", "Orders", new { i }))

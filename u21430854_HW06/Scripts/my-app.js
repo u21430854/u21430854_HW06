@@ -41,7 +41,7 @@ function ShowProduct(prodId) {
         contentType: 'application/json;charset=UTF-8',
         dataType: 'json',
         success: (result) => {
-            $('#readTitle').html(result.product_name);
+            $('#readTitle').html(result.prodName);
             $('#readName').html(result.prodName);
             $('#readYear').html(result.prodYear);
             $('#readPrice').html(result.prodPrice);
@@ -51,6 +51,9 @@ function ShowProduct(prodId) {
             $('#2-quantity').html(result.prodStock[1].quantity);
             $('#3-quantity').html(result.prodStock[2].quantity);
             $('#read-product').modal('show');
+        },
+        failure: (err) => {
+            alert(err.responseText);
         },
         error: (err) => {
             alert(err.responseText);
